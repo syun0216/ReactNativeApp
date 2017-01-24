@@ -15,8 +15,7 @@ const BaseStyles = StyleSheet.create({
         backgroundColor: Colors.BACKGROUND,
     },
     loginContainer:{
-        flex:1,
-        backgroundColor: Colors.BACKGROUND,
+        marginTop: 60, marginLeft: 40, marginRight: 40,
     }
 });
 

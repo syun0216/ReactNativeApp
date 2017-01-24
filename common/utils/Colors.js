@@ -20,6 +20,12 @@ var Colors = {
     WHITE:"rgb(255,255,255)",
 
     DEEP_GRAY:"rgb(119, 119, 119)",
+
+    MIDDLE_GRAY: '#959595',
+
+    TRANSLUCENT: 'rgba(128, 128, 128, 0.5)',
+
+    TRANSPARENT: 'transparent',
 };
 
 module.exports = Colors;
