@@ -48,7 +48,7 @@ export default class TitleBar extends Component{
                         <View style={styles.leftViewContainer}>
                             {
                                 this.state.backVisible ?
-                                    <Image style={{width:24,height:24}} source={{uri:"back"}}/> : null
+                                    <Image style={{width:24,height:24}} source={{uri:"nav_icon_back48"}}/> : null
                             }
                         </View>
                     </TouchableOpacity>

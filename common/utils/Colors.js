@@ -15,7 +15,7 @@ var Colors = {
 
     RED:"#FF5858",
 
-    BACKGROUND:"rgb(240, 240, 240)",
+    BACKGROUND:"#F5FCFF",
 
     WHITE:"rgb(255,255,255)",
 

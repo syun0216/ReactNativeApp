@@ -7,11 +7,16 @@ import React,{Component} from 'react';
 import {
     StyleSheet
 } from 'react-native';
+import Colors from '../utils/Colors';
 
 const BaseStyles = StyleSheet.create({
     BaseContainer:{
         flex:1,
-        backgroundColor: '#F5FCFF',
+        backgroundColor: Colors.BACKGROUND,
+    },
+    loginContainer:{
+        flex:1,
+        backgroundColor: Colors.BACKGROUND,
     }
 });
 
