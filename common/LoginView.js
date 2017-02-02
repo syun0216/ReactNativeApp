@@ -19,11 +19,14 @@ import TitleBar from './components/TitleBar';
 import TextSizes from './utils/TextSizes';
 
 export default class LoginView extends Component {
+    disabled = false;
+
     constructor(props) {
         super(props);
         this.state = {
             phone:null,
-            smsCode:null
+            smsCode:null,
+            sendButton:"发送验证码"
         }
     }
 
@@ -33,6 +36,7 @@ export default class LoginView extends Component {
                 { this._renderTitleBar()}
                 <View style={BaseStyles.loginContainer}>
                     { this._renderPhoneInput() }
+                    { this._renderSmsCodeInput() }
                 </View>
             </View>
         )
@@ -87,7 +91,7 @@ export default class LoginView extends Component {
                     />
                     <TouchableOpacity
                         onPress={()=>this.onPressSendQrCode()}
-                        disabled={this.disaled}
+                        disabled={this.disabled}
                     >
                         <Text>
                             {this.state.sendButton}
@@ -108,6 +112,10 @@ export default class LoginView extends Component {
     }
 
     handleSmsCodeInput(text){
+
+    }
+
+    onPressSendQrCode(){
 
     }
 

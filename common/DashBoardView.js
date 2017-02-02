@@ -69,30 +69,30 @@ export default class DashBoardView extends Component {
         let source = null;
         switch (tabName) {
             case _TAB_HOME:
-                source = {uri: 'right'};
+                source = {uri: 'home'};
                 break;
             case _TAB_MY:
-                source = {uri: 'me_dis'};
+                source = {uri: 'my'};
                 break;
             default:
                 break;
-                return (
-                    <Image
-                        style={styles.image}
-                        resizeMode="contain"
-                        source={source}/>
-                );
         }
+        return (
+            <Image
+                style={styles.image}
+                resizeMode="contain"
+                source={source}/>
+        );
     }
 
     renderTabSelectedIcon(tabName) {
         let source = null;
         switch (tabName) {
             case _TAB_HOME:
-                source = {uri: 'home'};
+                source = {uri: 'home_select'};
                 break;
             case _TAB_MY:
-                source = {uri: 'me'};
+                source = {uri: 'my_select'};
                 break;
             default:
                 break;

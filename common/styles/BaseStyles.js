@@ -16,6 +16,7 @@ const BaseStyles = StyleSheet.create({
     },
     loginContainer:{
         marginTop: 60, marginLeft: 40, marginRight: 40,
+        flex:1,flexDirection:'column'
     }
 });
 
