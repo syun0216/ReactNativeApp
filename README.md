@@ -11,3 +11,4 @@
 ### 相关插件
 
 * bottom tab:[react-native-tab-navigator](https://www.npmjs.com/package/react-native-tab-navigator) 
+* toast util:[react-native-root-toast](https://www.npmjs.com/package/react-native-root-toast)

@@ -17,16 +17,20 @@ import BaseStyles from './styles/BaseStyles';
 import Colors from './utils/Colors';
 import TitleBar from './components/TitleBar';
 import TextSizes from './utils/TextSizes';
+import Button from './components/Button';
+import Toast from './utils/Toast';
 
 export default class LoginView extends Component {
-    disabled = false;
+    TIMER = null;
+    loginDisabled = true;
 
     constructor(props) {
         super(props);
         this.state = {
-            phone:null,
-            smsCode:null,
-            sendButton:"发送验证码"
+            phone: '',
+            smsCode: '',
+            sendButton: "发送验证码",
+            sendButtonDisabled:false
         }
     }
 
@@ -37,6 +41,7 @@ export default class LoginView extends Component {
                 <View style={BaseStyles.loginContainer}>
                     { this._renderPhoneInput() }
                     { this._renderSmsCodeInput() }
+                    { this._renderButtonView() }
                 </View>
             </View>
         )
@@ -52,8 +57,8 @@ export default class LoginView extends Component {
         )
     }
 
-    _renderPhoneInput(){
-        return(
+    _renderPhoneInput() {
+        return (
             <View style={styles.InputContainer}>
                 <TextInput
                     style={styles.Input}
@@ -66,16 +71,25 @@ export default class LoginView extends Component {
                     maxLength={11}
                     placeholderTextColor='gray'
                     returnKeyType="done"
-                    onChangeText={(text)=>this.handlePhoneInput(text)}
+                    onChangeText={(text) => this.handlePhoneInput(text)}
                 />
+                <TouchableOpacity
+                    onPress={() => this.onPressSendQrCode()}
+                    disabled={this.state.sendButtonDisabled}
+                    style={styles.sendCodeBtn}
+                >
+                    <Text style={this.state.sendButtonDisabled ? {color:Colors.MIDDLE_GRAY} : {color:Colors.RED}}>
+                        {this.state.sendButton}
+                    </Text>
+                </TouchableOpacity>
             </View>
         )
     }
 
-    _renderSmsCodeInput(){
+    _renderSmsCodeInput() {
         return (
             <View style={styles.InputContainer}>
-                <View style={{flex:1,flexDirection:'row',justifyContent:'center'}}>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
                     <TextInput
                         multiline={false}
                         autoFocus={false}
@@ -87,52 +101,99 @@ export default class LoginView extends Component {
                         placeholderTextColor='gray'
                         maxLength={6}
                         returnKeyType='done'
-                        onChangeText={(text)=>this.handleSmsCodeInput(text)}
+                        onChangeText={(text) => this.handleSmsCodeInput(text)}
                     />
-                    <TouchableOpacity
-                        onPress={()=>this.onPressSendQrCode()}
-                        disabled={this.disabled}
-                    >
-                        <Text>
-                            {this.state.sendButton}
-                        </Text>
-                    </TouchableOpacity>
+
                 </View>
             </View>
         )
     }
 
-    handlePhoneInput(text){
+    _renderButtonView() {
+        // let _disabled = false;
+        // if(this.state.phone == null ){
+        //
+        // }
+        let _disabled = !(this.state.phone.length >= 1 && this.state.smsCode.length >= 1);
+        return (
+            <Button
+                title="立即登录"
+                disabled={_disabled}
+                style={[styles.loginBtn,_disabled ? {backgroundColor:Colors.MIDDLE_GRAY} : {backgroundColor:Colors.RED}]}
+                textStyle={{color: Colors.WHITE}}/>
+        )
+    }
+
+    countDown() {
+        let countSecond = 10;
+
+        this.setState({
+            sendButtonDisabled:true
+        });
+
+        this.TIMER = setInterval(() => {
+            if (countSecond <= 1) {
+                this.setState({
+                    sendButton: '重新发送',
+                    sendButtonDisabled:false
+                });
+                clearInterval(this.TIMER);
+            }
+            else {
+                countSecond -- ;
+                this.setState({
+                    sendButton: countSecond + 's后重发'
+                })
+            }
+        }, 1000)
+
+    }
+
+    handlePhoneInput(text) {
         let reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
-        if(reg.test(text)){
+        if (reg.test(text)) {
             this.setState({
-                phone:text
+                phone: text
             })
         }
     }
 
-    handleSmsCodeInput(text){
-
+    handleSmsCodeInput(text) {
+        this.setState({
+            smsCode:text
+        });
     }
 
-    onPressSendQrCode(){
-
+    onPressSendQrCode() {
+        if(this.state.phone.length == 0){
+            Toast.showWithMessage('电话号码输入错误~')
+        }
+        else{
+            this.countDown();
+        }
     }
 
 }
 
 const styles = StyleSheet.create({
-    InputContainer:{
-        flex:1,
-        flexDirection:"row",
-        borderBottomWidth:1,
-        borderBottomColor:Colors.MIDDLE_GRAY,
+    InputContainer: {
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.MIDDLE_GRAY,
     },
-    Input:{
-        height:50,
-        flex:1,
-        backgroundColor:Colors.TRANSPARENT,
-        color:Colors.MIDDLE_GRAY,
-        fontSize:TextSizes.SIZE_16
+    Input: {
+        height: 50,
+        flex: 1,
+        backgroundColor: Colors.TRANSPARENT,
+        color: Colors.MIDDLE_GRAY,
+        fontSize: TextSizes.SIZE_16
+    },
+    sendCodeBtn: {
+        justifyContent: "center"
+    },
+    loginBtn: {
+        height: 50,
+        marginTop: 65,
+
     }
 });
