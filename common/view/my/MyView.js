@@ -32,7 +32,7 @@ export default class MyView extends Component{
     _renderTitleBar() {
         return (
             <TitleBar
-                title="我的"
+                title="My"
                 canBack={false}
                 {...this.props}/>
         )

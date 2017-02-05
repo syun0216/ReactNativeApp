@@ -12,17 +12,21 @@ import {
 import TabNavigator from 'react-native-tab-navigator';
 import Colors from './utils/Colors';
 import BaseStyles from './styles/BaseStyles';
-import HomeView from './view/home/HomeView';
+import BookView from './view/book/BookView';
+import MovieView from './view/movie/MovieView';
+import MusicView from './view/music/MusicView';
 import MyView from './view/my/MyView';
 
-const _TAB_HOME = "主页";
-const _TAB_MY = "我的";
+const _TAB_BOOKS = "book";
+const _TAB_MOVIES = "movie";
+const _TAB_MUSIC = "music";
+const _TAB_MINE = "my";
 
 export default class DashBoardView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: _TAB_HOME,
+            selectedTab: _TAB_BOOKS,
 
         }
     }
@@ -32,23 +36,43 @@ export default class DashBoardView extends Component {
             <View style={BaseStyles.BaseContainer}>
                 <TabNavigator>
                     <TabNavigator.Item
-                        selected={this.state.selectedTab == _TAB_HOME}
-                        title={_TAB_HOME}
+                        selected={this.state.selectedTab == _TAB_BOOKS}
+                        title={_TAB_BOOKS}
                         titleStyle={{color:Colors.DEEP_GRAY}}
                         selectedTitleStyle={{color:Colors.RED}}
-                        renderIcon={() => this.renderTabIcon(_TAB_HOME)}
-                        renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_HOME)}
-                        onPress={() => this._onPressTab(_TAB_HOME)} >
-                        <HomeView {...this.props} />
+                        renderIcon={() => this.renderTabIcon(_TAB_BOOKS)}
+                        renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_BOOKS)}
+                        onPress={() => this._onPressTab(_TAB_BOOKS)} >
+                        <BookView {...this.props} />
                     </TabNavigator.Item>
                     <TabNavigator.Item
-                        selected={this.state.selectedTab == _TAB_MY}
-                        title={_TAB_MY}
+                        selected={this.state.selectedTab == _TAB_MOVIES}
+                        title={_TAB_MOVIES}
                         titleStyle={{color:Colors.DEEP_GRAY}}
                         selectedTitleStyle={{color:Colors.RED}}
-                        renderIcon={() => this.renderTabIcon(_TAB_MY)}
-                        renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_MY)}
-                        onPress={() => this._onPressTab(_TAB_MY)} >
+                        renderIcon={() => this.renderTabIcon(_TAB_MOVIES)}
+                        renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_MOVIES)}
+                        onPress={() => this._onPressTab(_TAB_MOVIES)} >
+                        <MovieView {...this.props} />
+                    </TabNavigator.Item>
+                    <TabNavigator.Item
+                        selected={this.state.selectedTab == _TAB_MUSIC}
+                        title={_TAB_MUSIC}
+                        titleStyle={{color:Colors.DEEP_GRAY}}
+                        selectedTitleStyle={{color:Colors.RED}}
+                        renderIcon={() => this.renderTabIcon(_TAB_MUSIC)}
+                        renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_MUSIC)}
+                        onPress={() => this._onPressTab(_TAB_MUSIC)} >
+                        <MusicView {...this.props} />
+                    </TabNavigator.Item>
+                    <TabNavigator.Item
+                        selected={this.state.selectedTab == _TAB_MINE}
+                        title={_TAB_MINE}
+                        titleStyle={{color:Colors.DEEP_GRAY}}
+                        selectedTitleStyle={{color:Colors.RED}}
+                        renderIcon={() => this.renderTabIcon(_TAB_MINE)}
+                        renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_MINE)}
+                        onPress={() => this._onPressTab(_TAB_MINE)} >
                         <MyView {...this.props} />
                     </TabNavigator.Item>
                 </TabNavigator>
@@ -68,11 +92,17 @@ export default class DashBoardView extends Component {
     renderTabIcon(tabName) {
         let source = null;
         switch (tabName) {
-            case _TAB_HOME:
-                source = {uri: 'home'};
+            case _TAB_BOOKS:
+                source = {uri: 'book'};
                 break;
-            case _TAB_MY:
-                source = {uri: 'my'};
+            case _TAB_MOVIES:
+                source = {uri: 'movie'};
+                break;
+            case _TAB_MUSIC:
+                source = {uri: 'music'};
+                break;
+            case _TAB_MINE:
+                source = {uri: 'mine'};
                 break;
             default:
                 break;
@@ -88,11 +118,17 @@ export default class DashBoardView extends Component {
     renderTabSelectedIcon(tabName) {
         let source = null;
         switch (tabName) {
-            case _TAB_HOME:
-                source = {uri: 'home_select'};
+            case _TAB_BOOKS:
+                source = {uri: 'book'};
                 break;
-            case _TAB_MY:
-                source = {uri: 'my_select'};
+            case _TAB_MOVIES:
+                source = {uri: 'movie'};
+                break;
+            case _TAB_MUSIC:
+                source = {uri: 'music'};
+                break;
+            case _TAB_MINE:
+                source = {uri: 'mine'};
                 break;
             default:
                 break;
