@@ -14,9 +14,9 @@ import {
 import TitleBar from "../../components/TitleBar";
 import BaseStyles from "../../styles/BaseStyles";
 import HttpServices from "../../http/HttpServices";
-import HttpRequestUrls from "../../http/HttpRequestUrls";
 import CityData from '../../http/CityData';
 import Colors from '../../utils/Colors';
+import CityView from '../city/CityView';
 
 export default class BookView extends Component{
 
@@ -53,7 +53,7 @@ export default class BookView extends Component{
     _renderCityList(){
         return CityData.cityData.map((value,index) => {
             return (
-            <TouchableOpacity key={`${index}`} style={Styles.viewContainer}
+            <TouchableOpacity key={`${index}`} style={BaseStyles.viewContainer}
                               onPress={() => this._goToCityDetails(value.province)}>
                 <View>
                     <Text>
@@ -65,12 +65,18 @@ export default class BookView extends Component{
         });
     }
 
-    _goToCityDetails(res){
-        console.log(res);
+    _goToCityDetails(val){
+        this.props.navigator.push({
+            name:"CityView",
+            component:CityView,
+            params:{
+                provinceName:val
+            }
+        })
     }
 
     _onPressToFetchData(){
-        HttpServices.get('https://api.douban.com/v2/book/1220562',(res)=>this.successCallBack(res),(err)=>this.failCallBack(err));
+        HttpServices.get('https://api.douban.com/v2/province/1220562',(res)=>this.successCallBack(res),(err)=>this.failCallBack(err));
     }
 
     successCallBack(res){
@@ -82,12 +88,3 @@ export default class BookView extends Component{
     }
 
 }
-
-const Styles = StyleSheet.create({
-    viewContainer:{
-        height:50,
-        borderBottomWidth:1,
-        justifyContent:"center",
-        borderColor:Colors.MIDDLE_GRAY
-    }
-})

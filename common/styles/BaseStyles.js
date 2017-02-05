@@ -17,6 +17,12 @@ const BaseStyles = StyleSheet.create({
     loginContainer:{
         marginTop: 60, marginLeft: 40, marginRight: 40,
         flex:1,flexDirection:'column'
+    },
+    viewContainer:{
+        height:50,
+        borderBottomWidth:1,
+        justifyContent:"center",
+        borderColor:Colors.MIDDLE_GRAY
     }
 });
 

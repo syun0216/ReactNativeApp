@@ -12,13 +12,13 @@ import {
 import TabNavigator from 'react-native-tab-navigator';
 import Colors from './utils/Colors';
 import BaseStyles from './styles/BaseStyles';
-import BookView from './view/book/BookView';
-import MovieView from './view/movie/MovieView';
+import CityView from './view/province/ProvinceView';
+import MovieView from './view/city/CityView';
 import MusicView from './view/music/MusicView';
 import MyView from './view/my/MyView';
 
-const _TAB_BOOKS = "book";
-const _TAB_MOVIES = "movie";
+const _TAB_BOOKS = "province";
+const _TAB_MOVIES = "city";
 const _TAB_MUSIC = "music";
 const _TAB_MINE = "my";
 
@@ -43,7 +43,7 @@ export default class DashBoardView extends Component {
                         renderIcon={() => this.renderTabIcon(_TAB_BOOKS)}
                         renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_BOOKS)}
                         onPress={() => this._onPressTab(_TAB_BOOKS)} >
-                        <BookView {...this.props} />
+                        <CityView {...this.props} />
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab == _TAB_MINE}
@@ -76,7 +76,7 @@ export default class DashBoardView extends Component {
                 source = {uri: 'book'};
                 break;
             case _TAB_MOVIES:
-                source = {uri: 'movie'};
+                source = {uri: 'city'};
                 break;
             case _TAB_MUSIC:
                 source = {uri: 'music'};
@@ -99,10 +99,10 @@ export default class DashBoardView extends Component {
         let source = null;
         switch (tabName) {
             case _TAB_BOOKS:
-                source = {uri: 'book'};
+                source = {uri: 'province'};
                 break;
             case _TAB_MOVIES:
-                source = {uri: 'movie'};
+                source = {uri: 'city'};
                 break;
             case _TAB_MUSIC:
                 source = {uri: 'music'};

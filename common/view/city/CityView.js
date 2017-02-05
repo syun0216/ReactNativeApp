@@ -1,6 +1,6 @@
 /**
  * Created by Syun on 2017/2/5.
- * music view
+ * movie view
  */
 
 /**
@@ -13,20 +13,21 @@ import {
     View,
     Text,
     TouchableOpacity,
+    ScrollView
 } from 'react-native';
 import TitleBar from "../../components/TitleBar";
 import BaseStyles from "../../styles/BaseStyles";
 import HttpServices from "../../http/HttpServices";
-import HttpRequestUrls from "../../http/HttpRequestUrls";
+import CityData from "../../http/CityData";
 
-export default class MusicView extends Component{
+export default class MovieView extends Component{
 
     constructor(props){
         super(props);
     }
 
     componentWillMount() {
-
+        console.log(this.props.provinceName);
     }
 
 
@@ -34,10 +35,9 @@ export default class MusicView extends Component{
         return(
             <View style={BaseStyles.BaseContainer}>
                 {this._renderTitleBar()}
-                <TouchableOpacity onPress={()=>this._onPressToFetchData()}>
-                    <Text>fetch data</Text>
-                </TouchableOpacity>
-                <Text>MusicView</Text>
+                <ScrollView>
+                    {this._renderCityView()}
+                </ScrollView>
             </View>
         )
     }
@@ -45,10 +45,28 @@ export default class MusicView extends Component{
     _renderTitleBar() {
         return (
             <TitleBar
-                title="Music"
-                canBack={false}
+                title="Citys"
+                canBack={true}
                 {...this.props}/>
         )
+    }
+
+    _renderCityView(){
+        return CityData.cityData.map((value) => {
+            if(this.props.provinceName == value.province){
+               return value.city.map((value,idx) => {
+                    console.log(value.cityName);
+                    return (
+                        <TouchableOpacity style={BaseStyles.viewContainer} key={`${idx}`}>
+                            <View>
+                                <Text>{value.cityName}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )
+                })
+            }
+
+        })
     }
 
     _onPressToFetchData(){

@@ -12,16 +12,16 @@ var HttpRequestUrls = {
 
     LOGIN_BY_PASSWORD : _serverAddress+ "/users/login.api",
 
-    BOOK_SEARCH : _doubanAddress + "/book/search",
+    BOOK_SEARCH : _doubanAddress + "/province/search",
 
-    BOOK_SEARCH_ID : _doubanAddress + "/book/",
+    BOOK_SEARCH_ID : _doubanAddress + "/province/",
 
     MUSIC_SEARCH : _doubanAddress + "/music/search",
 
     MUSIC_SEARCH_ID : _doubanAddress + "/music",
 
-    MOVIE_SEARCH : _doubanAddress + "/movie/search",
+    MOVIE_SEARCH : _doubanAddress + "/city/search",
 
-    MOVIE_SEARCH_ID : _doubanAddress + "/movie/subject"
+    MOVIE_SEARCH_ID : _doubanAddress + "/city/subject"
 
 };
