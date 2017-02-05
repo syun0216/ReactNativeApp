@@ -8,16 +8,21 @@ import {
     View,
     Text,
     TouchableOpacity,
+    StyleSheet,
+    ScrollView
 } from 'react-native';
 import TitleBar from "../../components/TitleBar";
 import BaseStyles from "../../styles/BaseStyles";
 import HttpServices from "../../http/HttpServices";
 import HttpRequestUrls from "../../http/HttpRequestUrls";
+import CityData from '../../http/CityData';
+import Colors from '../../utils/Colors';
 
 export default class BookView extends Component{
 
     constructor(props){
         super(props);
+
     }
 
     componentWillMount() {
@@ -29,10 +34,9 @@ export default class BookView extends Component{
         return(
             <View style={BaseStyles.BaseContainer}>
                 {this._renderTitleBar()}
-                <TouchableOpacity onPress={()=>this._onPressToFetchData()}>
-                    <Text>fetch data</Text>
-                </TouchableOpacity>
-                <Text>BookView</Text>
+                <ScrollView>
+                    {this._renderCityList()}
+                </ScrollView>
             </View>
         )
     }
@@ -44,6 +48,25 @@ export default class BookView extends Component{
                 canBack={false}
                 {...this.props}/>
         )
+    }
+
+    _renderCityList(){
+        return CityData.cityData.map((value,index) => {
+            return (
+            <TouchableOpacity key={`${index}`} style={Styles.viewContainer}
+                              onPress={() => this._goToCityDetails(value.province)}>
+                <View>
+                    <Text>
+                        {value.province}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+            )
+        });
+    }
+
+    _goToCityDetails(res){
+        console.log(res);
     }
 
     _onPressToFetchData(){
@@ -59,3 +82,12 @@ export default class BookView extends Component{
     }
 
 }
+
+const Styles = StyleSheet.create({
+    viewContainer:{
+        height:50,
+        borderBottomWidth:1,
+        justifyContent:"center",
+        borderColor:Colors.MIDDLE_GRAY
+    }
+})

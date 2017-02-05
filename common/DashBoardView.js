@@ -46,26 +46,6 @@ export default class DashBoardView extends Component {
                         <BookView {...this.props} />
                     </TabNavigator.Item>
                     <TabNavigator.Item
-                        selected={this.state.selectedTab == _TAB_MOVIES}
-                        title={_TAB_MOVIES}
-                        titleStyle={{color:Colors.DEEP_GRAY}}
-                        selectedTitleStyle={{color:Colors.RED}}
-                        renderIcon={() => this.renderTabIcon(_TAB_MOVIES)}
-                        renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_MOVIES)}
-                        onPress={() => this._onPressTab(_TAB_MOVIES)} >
-                        <MovieView {...this.props} />
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab == _TAB_MUSIC}
-                        title={_TAB_MUSIC}
-                        titleStyle={{color:Colors.DEEP_GRAY}}
-                        selectedTitleStyle={{color:Colors.RED}}
-                        renderIcon={() => this.renderTabIcon(_TAB_MUSIC)}
-                        renderSelectedIcon = {() => this.renderTabSelectedIcon(_TAB_MUSIC)}
-                        onPress={() => this._onPressTab(_TAB_MUSIC)} >
-                        <MusicView {...this.props} />
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
                         selected={this.state.selectedTab == _TAB_MINE}
                         title={_TAB_MINE}
                         titleStyle={{color:Colors.DEEP_GRAY}}
