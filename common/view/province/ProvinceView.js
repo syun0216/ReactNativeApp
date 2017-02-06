@@ -9,13 +9,13 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    ScrollView
+    ScrollView,
+    Image
 } from 'react-native';
 import TitleBar from "../../components/TitleBar";
 import BaseStyles from "../../styles/BaseStyles";
 import HttpServices from "../../http/HttpServices";
 import CityData from '../../http/CityData';
-import Colors from '../../utils/Colors';
 import CityView from '../city/CityView';
 
 export default class BookView extends Component{
@@ -44,7 +44,7 @@ export default class BookView extends Component{
     _renderTitleBar() {
         return (
             <TitleBar
-                title="Book"
+                title="Provinces"
                 canBack={false}
                 {...this.props}/>
         )
@@ -55,10 +55,12 @@ export default class BookView extends Component{
             return (
             <TouchableOpacity key={`${index}`} style={BaseStyles.viewContainer}
                               onPress={() => this._goToCityDetails(value.province)}>
-                <View>
-                    <Text>
+                <View style={{flexDirection:"row",}}>
+                    <Text style={{marginLeft:10,flex:1}}>
                         {value.province}
                     </Text>
+                    <Image style={{width: 20, height: 20, marginLeft: 5}}
+                           source={{uri: 'more'}}/>
                 </View>
             </TouchableOpacity>
             )

@@ -4,24 +4,29 @@
  */
 
 const _serverAddress = 'https://api.wang-guanjia.com';
-const _doubanAddress = "https://api.douban.com/v2/";
+const _weatherAddress = 'https://free-api.heweather.com/v5/';
+const _key = "b9ddb41f102a41ee95cceb5d93082199";
 
-var HttpRequestUrls = {
+let HttpRequestUrls = {
 
     GET_SMS_CODE : _serverAddress+ "/phoneCode/getsmscode.api",
 
     LOGIN_BY_PASSWORD : _serverAddress+ "/users/login.api",
 
-    BOOK_SEARCH : _doubanAddress + "/province/search",
+    GET_CITY_WEATHER_FORECAST : _weatherAddress+ `/forecast?key=${_key}&city=`,
 
-    BOOK_SEARCH_ID : _doubanAddress + "/province/",
+    GET_CITY_WEATHER_NOW: _weatherAddress+ `/now?key=${_key}&city=`,
 
-    MUSIC_SEARCH : _doubanAddress + "/music/search",
+    GET_CITY_WEATHER_HOURLY: _weatherAddress+ `/hourly?key=${_key}&city=`,
 
-    MUSIC_SEARCH_ID : _doubanAddress + "/music",
+    GET_CITY_WEATHER_SUGGESTION: _weatherAddress+ `/suggestion?key=${_key}&city=`,
 
-    MOVIE_SEARCH : _doubanAddress + "/city/search",
+    GET_CITY_WEATHER_ALARM: _weatherAddress + `/alarm?key=${_key}&city=`,
 
-    MOVIE_SEARCH_ID : _doubanAddress + "/city/subject"
+    GET_CITY_WEATHER_ALL: _weatherAddress + `/weather?key=${_key}&city=`,
+
+
 
 };
+
+module.exports = HttpRequestUrls;

@@ -13,12 +13,14 @@ import {
     View,
     Text,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Image
 } from 'react-native';
 import TitleBar from "../../components/TitleBar";
 import BaseStyles from "../../styles/BaseStyles";
 import HttpServices from "../../http/HttpServices";
 import CityData from "../../http/CityData";
+import WeatherView from "../weather/WeatherView";
 
 export default class MovieView extends Component{
 
@@ -27,7 +29,6 @@ export default class MovieView extends Component{
     }
 
     componentWillMount() {
-        console.log(this.props.provinceName);
     }
 
 
@@ -55,12 +56,15 @@ export default class MovieView extends Component{
         return CityData.cityData.map((value) => {
             if(this.props.provinceName == value.province){
                return value.city.map((value,idx) => {
-                    console.log(value.cityName);
                     return (
-                        <TouchableOpacity style={BaseStyles.viewContainer} key={`${idx}`}>
-                            <View>
-                                <Text>{value.cityName}</Text>
+                        <TouchableOpacity style={BaseStyles.viewContainer} key={`${idx}`}
+                                          onPress={() => this._goToWeatherPage(value.cityName)}>
+                            <View style={{flexDirection:"row"}}>
+                                <Text style={{flex:1,marginLeft:10}}>{value.cityName}</Text>
+                                <Image style={{width: 20, height: 20, marginLeft: 5}}
+                                       source={{uri: 'more'}}/>
                             </View>
+
                         </TouchableOpacity>
                     )
                 })
@@ -69,16 +73,13 @@ export default class MovieView extends Component{
         })
     }
 
-    _onPressToFetchData(){
-        HttpServices.get('https://api.douban.com/v2/province/1220562',(res)=>this.successCallBack(res),(err)=>this.failCallBack(err));
+    _goToWeatherPage(val){
+        this.props.navigator.push({
+            name:"WeatherView",
+            component:WeatherView,
+            params:{
+                cityName:val
+            }
+        })
     }
-
-    successCallBack(res){
-        console.log(res);
-    }
-
-    failCallBack(err){
-        console.log(err);
-    }
-
 }

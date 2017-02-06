@@ -14,12 +14,12 @@ import Colors from './utils/Colors';
 import BaseStyles from './styles/BaseStyles';
 import CityView from './view/province/ProvinceView';
 import MovieView from './view/city/CityView';
-import MusicView from './view/music/MusicView';
+import MusicView from './view/weather/WeatherView';
 import MyView from './view/my/MyView';
 
 const _TAB_BOOKS = "province";
 const _TAB_MOVIES = "city";
-const _TAB_MUSIC = "music";
+const _TAB_MUSIC = "weather";
 const _TAB_MINE = "my";
 
 export default class DashBoardView extends Component {
@@ -79,7 +79,7 @@ export default class DashBoardView extends Component {
                 source = {uri: 'city'};
                 break;
             case _TAB_MUSIC:
-                source = {uri: 'music'};
+                source = {uri: 'weather'};
                 break;
             case _TAB_MINE:
                 source = {uri: 'mine'};
@@ -99,13 +99,13 @@ export default class DashBoardView extends Component {
         let source = null;
         switch (tabName) {
             case _TAB_BOOKS:
-                source = {uri: 'province'};
+                source = {uri: 'book'};
                 break;
             case _TAB_MOVIES:
                 source = {uri: 'city'};
                 break;
             case _TAB_MUSIC:
-                source = {uri: 'music'};
+                source = {uri: 'weather'};
                 break;
             case _TAB_MINE:
                 source = {uri: 'mine'};
