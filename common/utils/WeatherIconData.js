@@ -5,7 +5,7 @@
 
 const _iconAddress = 'http://files.heweather.com/cond_icon/';
 
-let WeatherIconData = [
+let WeatherIconData = {"weatherData":[
     {code:100,url:_iconAddress+"100.png"},
     {code:101,url:_iconAddress+"101.png"},
     {code:102,url:_iconAddress+"102.png"},
@@ -56,7 +56,7 @@ let WeatherIconData = [
     {code:508,url:_iconAddress+"508.png"},
     {code:900,url:_iconAddress+"900.png"},
     {code:901,url:_iconAddress+"901.png"},
-    {code:999,url:_iconAddress+"999.png"},
-];
+    {code:999,url:_iconAddress+"999.png"}
+]};
 
 module.exports = WeatherIconData;

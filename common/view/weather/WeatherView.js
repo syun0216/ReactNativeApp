@@ -15,6 +15,8 @@ import BaseStyles from "../../styles/BaseStyles";
 import HttpServices from "../../http/HttpServices";
 import HttpRequestUrls from "../../http/HttpRequestUrls";
 import Colors from "../../utils/Colors";
+import FullScreenLoadingView from '../../components/FullScreenLoadingView';
+import WeatherIconData from "../../utils/WeatherIconData";
 
 export default class WeatherView extends Component {
     _weatherData = null;
@@ -22,12 +24,21 @@ export default class WeatherView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentSelectedService:"天气预报"
+            currentSelectedService:"天气预报",
+            isLoading:true
         }
     }
 
     componentWillMount() {
-        HttpServices.get(HttpRequestUrls.GET_CITY_WEATHER_FORECAST + this.props.cityName, (res) => console.log(res), (error) => console.log(error));
+        HttpServices.get(HttpRequestUrls.GET_CITY_WEATHER_FORECAST + this.props.cityName,
+            (res) => {
+            this._weatherData = res.HeWeather5[0].daily_forecast;
+            this.setState({
+                isLoading:false
+            });
+            console.log(this._weatherData);
+        },
+            (error) => console.log(error));
     }
 
 
@@ -36,6 +47,9 @@ export default class WeatherView extends Component {
             <View style={BaseStyles.BaseContainer}>
                 {this._renderTitleBar()}
                 {this._renderPageView()}
+                {
+                    this.state.isLoading ? this._renderLoadingView() : null
+                }
             </View>
         )
     }
@@ -49,13 +63,24 @@ export default class WeatherView extends Component {
         )
     }
 
+    _renderLoadingView(){
+        return (
+            <FullScreenLoadingView
+                message="正在加载中..."/>
+        )
+    }
+
     _renderPageView() {
         return (
             <View style={Styles.pageContainer}>
                 <View style={Styles.listContainer}>
                     {this._renderListView()}
                 </View>
-                <View style={Styles.contentContainer}><Text>456</Text></View>
+                <View style={Styles.contentContainer}>
+                    {
+                        this._weatherData != null ? this._renderContentView() : null
+                    }
+                </View>
             </View>
         )
     }
@@ -77,9 +102,60 @@ export default class WeatherView extends Component {
         })
     }
 
+    _renderContentView(){
+        if(this._weatherData == null){
+            return;
+        }
+        switch (this.state.currentSelectedService){
+            case "天气预报":
+                console.log(this._weatherData);
+                return this._weatherData.map((value,idx) => {
+                    return (
+                        <View key={`${idx}`}>
+                            <View>
+                                <Text>{value.date}</Text>
+                                <Text>天文数值:</Text>
+                                <Text>月升时间{value.astro.mr}</Text>
+                                <Text>月落时间{value.astro.ms}</Text>
+                                <Text>日出时间{value.astro.sr}</Text>
+                                <Text>日落时间{value.astro.ss}</Text>
+                                <Text>天气状况:</Text>
+                                <Text>白天天气:{this._renderWeatherIconView(value.cond.code_d)}</Text>
+                                <Text>{value.cond.text.d}</Text>
+                                <Text>夜间天气:{this._renderWeatherIconView(value.cond.code_n)}</Text>
+                                <Text>{value.cond.text_n}</Text>
+                            </View>
+                        </View>
+                    )
+                });break;
+            case "实况天气" :
+                return null;
+            case "每小时预报":
+                return null;
+            case "生活指数":
+                return null;
+            case "灾害预警":
+                return null;
+        }
+    }
+
+    _renderWeatherIconView(code){
+        WeatherIconData.weatherData.map((value) => {
+            if(value.code == code){
+                return (
+                    <Image style={{width:40,height:40}} source={{uri:value.url}}/>
+                )
+            }
+        })
+
+    }
+
 
 
     _selectService(value){
+        if(value == this.state.currentSelectedService){
+            return
+        }
         this.setState({
             currentSelectedService:value
         });
@@ -97,11 +173,18 @@ export default class WeatherView extends Component {
     }
 
     _successCallBack(res){
-        console.log(res);
+        let _data = res.HeWeather5[0];
+        switch (this.state.currentSelectedService){
+            case "天气预报": this._weatherData = _data.daily_forecast;break;
+            case "实况天气": this._weatherData = _data.now;break;
+            case "每小时预报": this._weatherData = _data.hourly_forecast;break;
+            case "生活指数": this._weatherData = _data.suggestion;break;
+            case "灾害预警": this._weatherData = _data.alarms;break;
+        }
     }
 
     _failCallBack(error){
-
+        console.log(error);
     }
 
 }

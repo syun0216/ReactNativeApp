@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import Colors from '../utils/Colors';
 import TextSizes from "../utils/TextSizes";
-import DevicesUtils from "./DevicesUtils";
+import DevicesUtils from "../utils/DevicesUtils";
 
 export default class TitleBar extends Component{
     static propTypes = {

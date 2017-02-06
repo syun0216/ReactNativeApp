@@ -73,13 +73,7 @@ export default class DashBoardView extends Component {
         let source = null;
         switch (tabName) {
             case _TAB_BOOKS:
-                source = {uri: 'book'};
-                break;
-            case _TAB_MOVIES:
-                source = {uri: 'city'};
-                break;
-            case _TAB_MUSIC:
-                source = {uri: 'weather'};
+                source = {uri: 'movie'};
                 break;
             case _TAB_MINE:
                 source = {uri: 'mine'};
@@ -99,13 +93,7 @@ export default class DashBoardView extends Component {
         let source = null;
         switch (tabName) {
             case _TAB_BOOKS:
-                source = {uri: 'book'};
-                break;
-            case _TAB_MOVIES:
-                source = {uri: 'city'};
-                break;
-            case _TAB_MUSIC:
-                source = {uri: 'weather'};
+                source = {uri: 'movie'};
                 break;
             case _TAB_MINE:
                 source = {uri: 'mine'};
