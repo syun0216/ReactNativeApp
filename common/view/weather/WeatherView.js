@@ -1,9 +1,4 @@
 /**
- * Created by Syun on 2017/2/5.
- * music view
- */
-
-/**
  * Created by Syun on 2017/1/23.
  * 主页
  */
