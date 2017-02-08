@@ -17,7 +17,7 @@ let HttpServices = {
             })
 
     },
-    post(url,data,successCallBack,failCallBack){
+    postForJson(url,data,successCallBack,failCallBack){
         "use strict";
         fetch(url,{
             method:'POST',
@@ -30,6 +30,23 @@ let HttpServices = {
             .then((response) => response.json())
             .then((responseJson) => {
                 successCallBack(responseJson)
+            })
+            .catch((error) => {
+                failCallBack(error);
+            })
+    },
+    post(url,data,successCallBack,failCallBack){
+        "use strict";
+        fetch(url,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: data
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                successCallBack(responseJson);
             })
             .catch((error) => {
                 failCallBack(error);

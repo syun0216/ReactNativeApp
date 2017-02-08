@@ -19,6 +19,10 @@ import TitleBar from './components/TitleBar';
 import TextSizes from './utils/TextSizes';
 import Button from './components/Button';
 import Toast from './utils/Toast';
+import HttpServices from './http/HttpServices';
+import HttpRequestUrls from './http/HttpRequestUrls';
+import FullScreenLoadingView from './components/FullScreenLoadingView';
+import UserServices from './account/UserServices';
 
 export default class LoginView extends Component {
     TIMER = null;
@@ -30,7 +34,8 @@ export default class LoginView extends Component {
             phone: '',
             smsCode: '',
             sendButton: "发送验证码",
-            sendButtonDisabled:false
+            sendButtonDisabled:false,
+            isLoading:false
         }
     }
 
@@ -43,7 +48,17 @@ export default class LoginView extends Component {
                     { this._renderSmsCodeInput() }
                     { this._renderButtonView() }
                 </View>
+                {
+                    this.state.isLoading ? this._renderLoadingView() : null
+                }
             </View>
+        )
+    }
+
+    _renderLoadingView(){
+        return (
+            <FullScreenLoadingView
+                message="正在请求中..."/>
         )
     }
 
@@ -110,18 +125,36 @@ export default class LoginView extends Component {
     }
 
     _renderButtonView() {
-        // let _disabled = false;
-        // if(this.state.phone == null ){
-        //
-        // }
         let _disabled = !(this.state.phone.length >= 1 && this.state.smsCode.length >= 1);
         return (
             <Button
                 title="立即登录"
                 disabled={_disabled}
                 style={[styles.loginBtn,_disabled ? {backgroundColor:Colors.MIDDLE_GRAY} : {backgroundColor:Colors.RED}]}
-                textStyle={{color: Colors.WHITE}}/>
+                textStyle={{color: Colors.WHITE}}
+                onPress={() => this._login()}/>
         )
+    }
+
+    _login(){
+        if(this.state.phone.length == 0){
+            Toast.showWithMessage("电话号码输入不正确");
+        }
+        else if(this.state.smsCode.length == 0){
+            Toast.showWithMessage("验证码输入不正确");
+        }
+        else{
+            this.setState({isLoading:true});
+            HttpServices.post(HttpRequestUrls.LOGIN_BY_PASSWORD,`phone=${this.state.phone}&msmcode=${this.state.smsCode}`,
+                (res) => {
+                    if(res.resultCode == 200 && res.data != null){
+                        this.setState({isLoading:false});
+                        UserServices.setLoginUserJsonData(res.data);
+                        Toast.showWithMessage("登录成功！");
+                        this.props.navigator.pop();
+                    }
+                },(error) => Toast.showWithMessage("登录失败!"))
+        }
     }
 
     countDown() {
@@ -159,9 +192,11 @@ export default class LoginView extends Component {
     }
 
     handleSmsCodeInput(text) {
-        this.setState({
-            smsCode:text
-        });
+        if(text.length == 6){
+            this.setState({
+                smsCode:text
+            });
+        }
     }
 
     onPressSendQrCode() {
@@ -169,6 +204,17 @@ export default class LoginView extends Component {
             Toast.showWithMessage('电话号码输入错误~')
         }
         else{
+            this.setState({isLoading:true});
+            HttpServices.post(HttpRequestUrls.GET_SMS_CODE,`phone=${this.state.phone}`,
+                (res) => {
+                    this.setState({isLoading:false});
+                    if(res.resultCode == 200){
+                        Toast.showWithMessage("短信发送成功~");
+                    }
+                    else{
+                        Toast.showWithMessage("短信发送失败~")
+                    }
+                },(error) => {this.setState({isLoading:false});Toast.showWithMessage("短信发送失败~")});
             this.countDown();
         }
     }

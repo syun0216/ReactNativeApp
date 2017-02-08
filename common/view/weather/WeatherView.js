@@ -147,6 +147,7 @@ export default class WeatherView extends Component {
                     )
                 });
                 break;
+                //点击实况天气,会一直发出请求
             case "实况天气" :
                 return (
                     <View>
