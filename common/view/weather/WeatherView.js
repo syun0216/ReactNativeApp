@@ -23,10 +23,19 @@ import WeatherIconData from "../../utils/WeatherIconData";
 import Toast from "../../utils/Toast";
 
 export default class WeatherView extends Component {
-    _weatherData = null;
-
+    _data = null;
+    _initData() {
+        this._data = {
+            _weatherData: null,
+            _nowData: null,
+            _hourData: null,
+            _suggestionData: null,
+            _alarmData: null
+        };
+    }
     constructor(props) {
         super(props);
+        this._initData();
         this.state = {
             currentSelectedService: "天气预报",
             isLoading: true,
@@ -41,9 +50,7 @@ export default class WeatherView extends Component {
                 this.setState({
                     isLoading: false
                 });
-                console.log(this._weatherData);
             }, (error) => {
-                console.log(error);
                 this.setState({
                     isLoading: false
                 });
@@ -94,7 +101,7 @@ export default class WeatherView extends Component {
                                 />
                             }>
                     {
-                        this._weatherData != null ? this._renderContentView() : null
+                       this._renderContentView()
                     }
                 </ScrollView>
             </View>
@@ -119,13 +126,9 @@ export default class WeatherView extends Component {
     }
 
     _renderContentView() {
-        let _value = this._weatherData;
-        if (_value == null) {
-            return;
-        }
         switch (this.state.currentSelectedService) {
             case "天气预报":
-                return _value.map((value, idx) => {
+                return this._data._weatherData != null ? this._data._weatherData.map((value, idx) => {
                     return (
                         <View key={`${idx}`}>
                             <View>
@@ -145,33 +148,34 @@ export default class WeatherView extends Component {
                             </View>
                         </View>
                     )
-                });
+                }) : null;
                 break;
                 //点击实况天气,会一直发出请求
             case "实况天气" :
                 return (
+                this._data._nowData != null ?
                     <View>
                         <Text>天气状况:</Text>
-                        {this._renderWeatherIconView(_value.cond.code)}
-                        <Text>{_value.cond.txt}</Text>
+                        {this._renderWeatherIconView(this._nowData.cond.code)}
+                        <Text>{this._nowData.cond.txt}</Text>
                         <Text>体感温度:</Text>
-                        <Text>{_value.fl}</Text>
+                        <Text>{this._nowData.fl}</Text>
                         <Text>相对湿度:</Text>
-                        <Text>{_value.hum}%</Text>
+                        <Text>{this._nowData.hum}%</Text>
                         <Text>降水量:</Text>
-                        <Text>{_value.pcpn}</Text>
+                        <Text>{this._nowData.pcpn}</Text>
                         <Text>气压:</Text>
-                        <Text>{_value.pres}</Text>
+                        <Text>{this._nowData.pres}</Text>
                         <Text>温度:</Text>
-                        <Text>{_value.tmp}</Text>
+                        <Text>{this._nowData.tmp}</Text>
                         <Text>能见度</Text>
-                        <Text>{_value.vis}</Text>
+                        <Text>{this._nowData.vis}</Text>
                         <Text>风力方向:</Text>
-                        <Text>风向(360度):{_value.wind.deg}</Text>
-                        <Text>风向{_value.wind.dir}</Text>
-                        <Text>风力:{_value.wind.sc}</Text>
-                        <Text>风速:{_value.wind.spd}</Text>
-                    </View>
+                        <Text>风向(360度):{this._nowData.wind.deg}</Text>
+                        <Text>风向{this._nowData.wind.dir}</Text>
+                        <Text>风力:{this._nowData.wind.sc}</Text>
+                        <Text>风速:{this._nowData.wind.spd}</Text>
+                    </View> : null
                 );break;
             case "每小时预报":
                 return null;
@@ -193,11 +197,11 @@ export default class WeatherView extends Component {
 
     }
 
-
     _selectService(value) {
         if (value == this.state.currentSelectedService) {
             return
         }
+        this._initData();
         this.setState({
             currentSelectedService: value,
             isLoading:true
@@ -210,7 +214,7 @@ export default class WeatherView extends Component {
             case "天气预报":
                 HttpServices.get(HttpRequestUrls.GET_CITY_WEATHER_FORECAST + this.props.cityName, (res) =>
                 {
-                    this._weatherData = res.HeWeather5[0].daily_forecast;
+                    this._data._weatherData = res.HeWeather5[0].daily_forecast;
                     this.setState({
                        isLoading:false
                     });
@@ -219,7 +223,7 @@ export default class WeatherView extends Component {
             case "实况天气":
                 HttpServices.get(HttpRequestUrls.GET_CITY_WEATHER_NOW + this.props.cityName, (res) =>
                 {
-                    this._weatherData = res.HeWeather5[0].now;
+                    this._data._nowData = res.HeWeather5[0].now;
                     this.setState({
                         isLoading:false
                     })
@@ -228,7 +232,7 @@ export default class WeatherView extends Component {
             case "每小时预报":
                 HttpServices.get(HttpRequestUrls.GET_CITY_WEATHER_HOURLY + this.props.cityName, (res) =>
                 {
-                    this._weatherData = res.HeWeather5[0].hourly_forecast;
+                    this._data._hourData = res.HeWeather5[0].hourly_forecast;
                     this.setState({
                        isLoading:false
                     });
@@ -237,7 +241,7 @@ export default class WeatherView extends Component {
             case "生活指数":
                 HttpServices.get(HttpRequestUrls.GET_CITY_WEATHER_SUGGESTION + this.props.cityName, (res) =>
                 {
-                    this._weatherData = res.HeWeather5[0].suggestion;
+                    this._data._suggestionData = res.HeWeather5[0].suggestion;
                     this.setState({
                         isLoading:false
                     });
@@ -246,7 +250,7 @@ export default class WeatherView extends Component {
             case "灾害预警":
                 HttpServices.get(HttpRequestUrls.GET_CITY_WEATHER_ALARM + this.props.cityName, (res) =>
                 {
-                    this._weatherData = res.HeWeather5[0].alarms;
+                    this._data._alarmData = res.HeWeather5[0].alarms;
                     this.setState({
                         isLoading:false
                     });
