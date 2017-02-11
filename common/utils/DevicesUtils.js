@@ -20,9 +20,9 @@ let DevicesUtils = {
         if (Platform.OS == 'ios') {
             return Dimensions.get("window").height;
         } else {
-            const ExtraDimensions = require("./AndroidExtraDimensions")
-            return ExtraDimensions.REAL_WINDOW_HEIGHT - ExtraDimensions.STATUS_BAR_HEIGHT
-                - ExtraDimensions.SOFT_MENU_BAR_HEIGHT;
+            // const ExtraDimensions = require("./AndroidExtraDimensions")
+            // return ExtraDimensions.REAL_WINDOW_HEIGHT - ExtraDimensions.STATUS_BAR_HEIGHT
+            //     - ExtraDimensions.SOFT_MENU_BAR_HEIGHT;
         }
     }
 };
