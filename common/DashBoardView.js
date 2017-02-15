@@ -13,13 +13,9 @@ import TabNavigator from 'react-native-tab-navigator';
 import Colors from './utils/Colors';
 import BaseStyles from './styles/BaseStyles';
 import CityView from './view/province/ProvinceView';
-import MovieView from './view/city/CityView';
-import MusicView from './view/weather/WeatherView';
 import MyView from './view/my/MyView';
 
 const _TAB_BOOKS = "province";
-const _TAB_MOVIES = "city";
-const _TAB_MUSIC = "weather";
 const _TAB_MINE = "my";
 
 export default class DashBoardView extends Component {

@@ -43,7 +43,7 @@ export default class WeatherView extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         HttpServices.get(HttpRequestUrls.GET_CITY_WEATHER_FORECAST + this.props.cityName,
             (res) => {
                 this._weatherData = res.HeWeather5[0].daily_forecast;
@@ -56,6 +56,10 @@ export default class WeatherView extends Component {
                 });
                 Toast.showWithMessage("发生未知错误!");
             })
+    }
+
+    componentWillUnmount() {
+
     }
 
 
@@ -156,33 +160,95 @@ export default class WeatherView extends Component {
                 this._data._nowData != null ?
                     <View>
                         <Text>天气状况:</Text>
-                        {this._renderWeatherIconView(this._nowData.cond.code)}
-                        <Text>{this._nowData.cond.txt}</Text>
+                        {this._renderWeatherIconView(this._data._nowData.cond.code)}
+                        <Text>{this._data._nowData.cond.txt}</Text>
                         <Text>体感温度:</Text>
-                        <Text>{this._nowData.fl}</Text>
+                        <Text>{this._data._nowData.fl}</Text>
                         <Text>相对湿度:</Text>
-                        <Text>{this._nowData.hum}%</Text>
+                        <Text>{this._data._nowData.hum}%</Text>
                         <Text>降水量:</Text>
-                        <Text>{this._nowData.pcpn}</Text>
+                        <Text>{this._data._nowData.pcpn}</Text>
                         <Text>气压:</Text>
-                        <Text>{this._nowData.pres}</Text>
+                        <Text>{this._data._nowData.pres}</Text>
                         <Text>温度:</Text>
-                        <Text>{this._nowData.tmp}</Text>
+                        <Text>{this._data._nowData.tmp}</Text>
                         <Text>能见度</Text>
-                        <Text>{this._nowData.vis}</Text>
+                        <Text>{this._data._nowData.vis}</Text>
                         <Text>风力方向:</Text>
-                        <Text>风向(360度):{this._nowData.wind.deg}</Text>
-                        <Text>风向{this._nowData.wind.dir}</Text>
-                        <Text>风力:{this._nowData.wind.sc}</Text>
-                        <Text>风速:{this._nowData.wind.spd}</Text>
+                        <Text>风向(360度):{this._data._nowData.wind.deg}</Text>
+                        <Text>风向{this._data._nowData.wind.dir}</Text>
+                        <Text>风力:{this._data._nowData.wind.sc}</Text>
+                        <Text>风速:{this._data._nowData.wind.spd}</Text>
                     </View> : null
                 );break;
             case "每小时预报":
-                return null;
+                return (
+                  this._data._hourData != null ?
+                      <View>
+                        <Text>天气状况:</Text>
+                          {this._renderWeatherIconView(this._data._hourData.cond.code)}
+                          <Text>{this._data._hourData.cond.txt}</Text>
+                          <Text>当前时间:</Text>
+                          <Text>{this._data._hourData.date}</Text>
+                          <Text>相对湿度:(%)</Text>
+                          <Text>{this._data._hourData.hum}</Text>
+                          <Text>降水概率:</Text>
+                          <Text>{this._data._hourData.pop}</Text>
+                          <Text>气压:</Text>
+                          <Text>{this._data._hourData.pres}</Text>
+                          <Text>温度:</Text>
+                          <Text>{this._data._hourData.tmp}°C</Text>
+                          <Text>风力风向:</Text>
+                          <Text>风向:(360度)</Text>
+                          <Text>{this._data._hourData.wind.deg}</Text>
+                          <Text>风向:</Text>
+                          <Text>{this._data._hourData.wind.dir}</Text>
+                          <Text>风力:</Text>
+                          <Text>{this._data._hourData.wind.sr}</Text>
+                          <Text>风速:</Text>
+                          <Text>{this._data._hourData.wind.spd}</Text>
+                      </View> : null
+                );
             case "生活指数":
-                return null;
+                return (
+                    this._data._suggestionData != null ?
+                        <View>
+                            <Text>舒适度指数:</Text>
+                            <Text>{this._data._suggestionData.comf.brf}</Text>
+                            <Text>{this._data._suggestionData.comf.txt}</Text>
+                            <Text>洗车指数:</Text>
+                            <Text>{this._data._suggestionData.cw.brf}</Text>
+                            <Text>{this._data._suggestionData.cw.txt}</Text>
+                            <Text>穿衣指数:</Text>
+                            <Text>{this._data._suggestionData.drsg.brf}</Text>
+                            <Text>{this._data._suggestionData.drsg.txt}</Text>
+                            <Text>感冒指数:</Text>
+                            <Text>{this._data._suggestionData.flu.brf}</Text>
+                            <Text>{this._data._suggestionData.flu.txt}</Text>
+                            <Text>运动指数:</Text>
+                            <Text>{this._data._suggestionData.sport.brf}</Text>
+                            <Text>{this._data._suggestionData.sport.txt}</Text>
+                            <Text>紫外线指数:</Text>
+                            <Text>{this._data._suggestionData.uv.brf}</Text>
+                            <Text>{this._data._suggestionData.uv.txt}</Text>
+                        </View> : null
+                );
             case "灾害预警":
-                return null;
+                return (
+                    this._data._alarmData != null ?
+                        <View>
+                            <Text>预警等级:</Text>
+                            <Text>{this._data._alarmData.level}</Text>
+                            <Text>预警状态:</Text>
+                            <Text>{this._data._alarmData.stat}</Text>
+                            <Text>预警信息标题:</Text>
+                            <Text>{this._data._alarmData.title}</Text>
+                            <Text>预警信息详情:</Text>
+                            <Text>{this._data._alarmData.txt}</Text>
+                            <Text>预警天气类型:</Text>
+                            <Text>{this._data._alarmData.type}</Text>
+                        </View> : null
+                )
         }
     }
 
