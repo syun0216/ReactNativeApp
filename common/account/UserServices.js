@@ -18,6 +18,7 @@ let UserServices = {
      */
     setLoginUserJsonData(userInfo){
         "use strict";
+        _userJSONData = userInfo;
         AsyncStorage.setItem(this._STORAGE_KEY_USER_DATA, JSON.stringify(userInfo));
     },
 
@@ -31,18 +32,18 @@ let UserServices = {
             return;
         }
         if (_userJSONData != null) {
-            callback(null, _userJSONData);
+            callBack(null, _userJSONData);
             return;
         }
 
         AsyncStorage.getItem(this._STORAGE_KEY_USER_DATA, (error, value) => {
             if (error != null || value == null || value.length == 0) {
-                callback(error, null);
+                callBack(error, null);
                 return;
             }
 
             _userJSONData = JSON.parse(value);
-            callback(null, _userJSONData);
+            callBack(null, _userJSONData);
         });
 
         /**
